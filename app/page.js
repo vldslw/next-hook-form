@@ -41,20 +41,16 @@ export default function Home() {
       const responseData = await response.json();
 
       if (!response.ok) {
-        alert(responseData.message);
-        return;
-      }
-
-      if (responseData.errors) {
-        const errors = responseData.errors;
-        if (errors.email) {
-          setError("email", { message: errors.email });
-        } else if (errors.password) {
-          setError("password", { message: errors.password });
+        if (responseData.message === "Validation failed") {
+          setError("password", { message: "Ошибка валидации" });
+          return;
+        } else {
+          setError("password", { message: responseData.message });
+          return;
         }
       }
 
-      // reset();
+      reset();
     }
   };
 
