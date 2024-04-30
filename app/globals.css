@@ -20,6 +20,8 @@ body {
   grid-template-columns: repeat(8, 1fr);
   column-gap: 20px;
   row-gap: 16px;
+  min-width: 270px;
+  box-sizing: border-box;
 }
 
 .form__button {
@@ -32,6 +34,17 @@ body {
   background-color: rgba(11, 87, 208, 1);
   cursor: pointer;
 }
+.form__back {
+  justify-self: start;
+  grid-column: span 2;
+  padding: 13px 20px 13px 0;
+  border: none;
+  border-radius: 100px;
+  color: rgba(11, 87, 208, 1);
+  background-color: rgba(255, 255, 255, 1);
+  cursor: pointer;
+}
+
 .form__error {
   padding: 4px 16px 0 16px;
   font-size: 12px;
@@ -70,6 +83,7 @@ body {
   grid-column: span 3;
   margin: 0;
   font-size: 27px;
+  justify-self: start;
 }
 
 .form__input-group {
@@ -101,7 +115,7 @@ body {
   }
 
   .form__title {
-    grid-column: span 2;
+    grid-column: span 4;
   }
 
   .form__input-group {
@@ -120,5 +134,9 @@ body {
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 468px) {
+  .form__back {
+    grid-column: span 4;
+    grid-row: 2;
+  }
 }

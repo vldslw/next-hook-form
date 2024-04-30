@@ -27,30 +27,55 @@ export default function Home() {
         setStep("password");
       }
     } else if (step === "password") {
-      const response = await fetch("http://localhost:4000/signin", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: data.email,
-          password: data.password,
-        }),
-      });
+      try {
+        // мок успешного ответа от сервера на случай, если сервер не готов
 
-      const responseData = await response.json();
+        // const response = {
+        //   ok: true,
+        //   json: () =>
+        //     new Promise((resolve) =>
+        //       setTimeout(
+        //         () =>
+        //           resolve({
+        //             token:
+        //               "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwiaWF0IjoxNzE0NDU0ODQ3LCJleHAiOjE3MTUwNTk2NDd9.uJR5dp3AbT7OTY0Ip66T-8aLIsDJ-bDgmGQVj9J1Wfs",
+        //           }),
+        //         1000
+        //       )
+        //     ),
+        // };
 
-      if (!response.ok) {
-        if (responseData.message === "Validation failed") {
-          setError("password", { message: "Ошибка валидации" });
-          return;
-        } else {
-          setError("password", { message: responseData.message });
-          return;
+        const response = await fetch("http://localhost:4000/signin", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: data.email,
+            password: data.password,
+          }),
+        });
+
+        const responseData = await response.json();
+
+        if (!response.ok) {
+          if (responseData.message === "Validation failed") {
+            setError("password", { message: "Ошибка валидации" });
+            return;
+          } else {
+            setError("password", { message: responseData.message });
+            return;
+          }
         }
-      }
 
-      reset();
+        console.log(responseData);
+
+        reset();
+      } catch (error) {
+        setError("password", {
+          message: "Ошибка соединения",
+        });
+      }
     }
   };
 
@@ -71,10 +96,10 @@ export default function Home() {
             <div className="form__input-group">
               <input
                 {...register("email", {
-                  required: "Необходимо ввести email",
+                  required: "Необходимо ввести почту",
                   pattern: {
                     value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                    message: "Введите корректный формат email",
+                    message: "Введите корректный формат почты",
                   },
                 })}
                 type="email"
@@ -88,7 +113,7 @@ export default function Home() {
                 <span className="form__error">{errors.email.message}</span>
               ) : (
                 <label htmlFor="email" className="form__label">
-                  Введите свой email
+                  Введите свою почту
                 </label>
               )}
             </div>
@@ -125,6 +150,9 @@ export default function Home() {
                 </label>
               )}
             </div>
+            <button className="form__back" onClick={() => setStep("email")}>
+              &larr; Назад
+            </button>
           </>
         )}
         <button disabled={isSubmitting} type="submit" className="form__button">
