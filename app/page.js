@@ -1,13 +1,15 @@
 "use client";
 
 import Image from "next/image";
-
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import hideIcon from "../public/icons/hide-eye.svg";
 import showIcon from "../public/icons/show-eye.svg";
 
 export default function Home() {
+  const router = useRouter();
+
   const [step, setStep] = useState("email");
   const [visibility, setVisibility] = useState("password");
 
@@ -67,13 +69,18 @@ export default function Home() {
             return;
           }
         }
-
-        console.log(responseData);
-
-        reset();
+        if (responseData.token) {
+          // в данном случае просто сохраняю получаемый с сервера токен в localStorage
+          // и перехожу по роуту /logged с сообщением об успешном входе.
+          // Защиту для него прописывать не буду, так как это не требовалось в задании.
+          // При выходе токен будет удаляться из localStorage
+          localStorage.setItem("jwt", responseData.token);
+          reset();
+          router.push("/logged");
+        }
       } catch (error) {
         setError("password", {
-          message: "Ошибка соединения",
+          message: `Произошла ошибка: ${error.message}`,
         });
       }
     }
