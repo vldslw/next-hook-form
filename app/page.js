@@ -17,6 +17,7 @@ export default function Home() {
     formState: { errors, isSubmitting },
     reset,
     trigger,
+    setError,
   } = useForm();
 
   const onSubmit = async (data) => {
@@ -26,8 +27,34 @@ export default function Home() {
         setStep("password");
       }
     } else if (step === "password") {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      reset();
+      const response = await fetch("http://localhost:4000/signin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: data.email,
+          password: data.password,
+        }),
+      });
+
+      const responseData = await response.json();
+
+      if (!response.ok) {
+        alert(responseData.message);
+        return;
+      }
+
+      if (responseData.errors) {
+        const errors = responseData.errors;
+        if (errors.email) {
+          setError("email", { message: errors.email });
+        } else if (errors.password) {
+          setError("password", { message: errors.password });
+        }
+      }
+
+      // reset();
     }
   };
 
