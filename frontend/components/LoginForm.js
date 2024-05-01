@@ -116,7 +116,11 @@ export default function LoginForm() {
             })}
             errors={errors}
           />
-          <button className="form__back" onClick={() => setStep("email")}>
+          <button
+            type="button"
+            className="form__back"
+            onClick={() => setStep("email")}
+          >
             &larr; Назад
           </button>
         </>
