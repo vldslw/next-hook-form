@@ -1,36 +1,42 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Проект [Next.js](https://nextjs.org/) / [React Hook Form](https://react-hook-form.com/).
 
-## Getting Started
 
-First, run the development server:
+Форма с использованием Next.js и React Hook Form. 
 
+Форма включает два шага.
+
+Первый - инпут для ввода email, который валидируется на этом же шаге, и кнопка перехода на второй шаг. 
+
+Второй - инпут для ввода пароля и кнопка сабмита. Пароль вводится скрытым звездочками и имеет кнопку "показать", которая открывает реальные значения.
+
+Сабмит отправляет форму со значениями обоих полей на сервер, реализованный с помощью Express.js. 
+
+На сервере захардкожена одна правильная пара логин/пароль: 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+test@gmail.com
+```
+```bash
+password1234
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Ошибки с сервера обрабатываются на фронтенде и показываются пользователю средствами React Hook Form.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+Также реализован мок успешного ответа от сервера для ситуации, когда мы разрабатываем фронтенд быстрее бэкенда и бэкенд пока что не готов, но мы хотим тестировать уже сейчас. Эта часть кода в настоящий момент закомментирована, так как запросы уходят на работающий сервер. 
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Запуск проекта
 
-## Learn More
+#### Бэкенд:
 
-To learn more about Next.js, take a look at the following resources:
+- Зайти в директорую с бэкендом: `cd server`
+- Установить зависимости: `npm install`
+- Запустить приложение: `npm run dev`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Сервер запустится на порте 4000: `http://localhost:4000/`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+#### Фронтенд:
 
-## Deploy on Vercel
+- Зайти в директорую с фронтендом: `cd frontend`
+- Установить зависимости: `npm install`
+- Запустить приложение: `npm run dev`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Клиент запустится на порте 3000: `http://localhost:3000/`.
